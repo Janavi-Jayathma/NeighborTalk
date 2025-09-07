@@ -1,0 +1,548 @@
+/* ----- About Us Header Section ----- */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.about-header {
+    background-color: #dbe4ff; /* light blue background */
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.about-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #00048B;
+}
+
+.about-header p {
+    font-size: 1.125rem;
+    color: #333;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* ----- Vision & Mission Cards ----- */
+.vision-mission {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 3rem 2rem;
+}
+
+.vision-mission .card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.vision-mission .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+.vision-mission h2 {
+    color: #4b67e1;
+    margin-bottom: 1rem;
+}
+
+.vision-mission p {
+    color: #333;
+    line-height: 1.5;
+}
+
+/* ----- Core Principles Grid (Fixed Overlap) ----- */
+.core-principles {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.core-principles h2 {
+    color: #00048B;
+    margin-bottom: 2.5rem;
+    font-size: 2rem;
+}
+
+.principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center; /* centers cards in their columns */
+    align-items: stretch; /* ensures equal height cards */
+}
+
+.principle {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%; /* ensures card fits inside grid column */
+    max-width: 300px; /* optional max width */
+    box-sizing: border-box; /* prevents padding from overflowing */
+}
+
+.principle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.principle h3 {
+    color: #4b67e1;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.principle p {
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ----- Support Page Styles ----- */
+/* ----- Global ----- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* ----- Support Header ----- */
+.support-header {
+    background-color: #dbe4ff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.support-header h1 {
+    font-size: 2.5rem;
+    color: #00048B;
+    margin-bottom: 1rem;
+}
+
+.support-header p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+/* ----- FAQ Section ----- */
+.faq-section {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.faq-section h2 {
+    font-size: 2rem;
+    color: #00048B;
+    margin-bottom: 2.5rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+}
+
+.faq-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+}
+
+.faq-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.faq-card h3 {
+    color: #4b67e1;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.faq-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* ----- Contact Form ----- */
+.contact-support {
+    padding: 3rem 2rem;
+    max-width: 800px;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.contact-support h2 {
+    font-size: 2rem;
+    color: #00048B;
+    margin-bottom: 1rem;
+}
+
+.contact-support p {
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+}
+
+.contact-support form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-support input,
+.contact-support textarea {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    resize: none;
+}
+
+.contact-support button {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #4b67e1;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-support button:hover {
+    background-color: #2e46b1;
+}
+
+/* ----- Global Styles ----- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* ----- Support Header ----- */
+.support-header {
+    background-color: #dbe4ff; /* Light blue background */
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.support-header h1 {
+    font-size: 2.5rem;
+    color: #00048B;
+    margin-bottom: 1rem;
+}
+
+.support-header p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+/* ----- FAQ Section ----- */
+.faq-section {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.faq-section h2 {
+    font-size: 2rem;
+    color: #00048B;
+    margin-bottom: 2.5rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: stretch;
+}
+
+.faq-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.faq-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.faq-card h3 {
+    color: #4b67e1;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.faq-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+
+/*
+ * Donations container and sections
+ */
+.donations-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.donations-form-section {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.donations-form-section h2 {
+    font-size: 1.75rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.donation-info {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.donation-info p {
+    margin: 0 0 1rem 0;
+}
+
+/*
+ * Hero Section Styles
+ */
+.hero-section {
+    background-color: #d1e2ff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    color: #4b67e1;
+    margin: 0;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.search-bar {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 1rem 3rem 1rem 1.5rem;
+    border: none;
+    border-radius: 9999px;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar svg {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+/*
+ * Topics Bar Styles
+ */
+.topics-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.topics-bar button {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #ccc;
+    border-radius: 9999px;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.topics-bar button.active,
+.topics-bar button:hover {
+    background-color: #4b67e1;
+    border-color: #4b67e1;
+    color: #ffffff;
+}
+
+/*
+ * Content Sections Styles
+ */
+.content-section {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.featured-topics {
+    flex: 2;
+    min-width: 300px;
+}
+
+.recent-updates {
+    flex: 1;
+    min-width: 300px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/*
+ * Featured Topics Card Styles
+ */
+.topic-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.card {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-image {
+    background-color: #e0e0e0;
+    min-width: 200px;
+    height: 150px;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-content h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/*
+ * Recent Updates List Styles
+ */
+.update-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.update-item {
+    display: flex;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.update-icon {
+    background-color: #d1e2ff;
+    color: #4b67e1;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+}
+
+.update-content h4 {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.update-content p {
+    font-size: 0.85rem;
+    color: #777;
+    line-height: 1.4;
+}

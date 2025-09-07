@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "db.php";
+require_once "../database/db.php";
 
 $error = "";
 
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
-        header("Location: home.php");
+        header("Location: ../app/home.php");
         exit();
     } else {
         $error = "Invalid username or password!";
@@ -32,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group 77 - Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body class="register-page">
     <div class="register-container">
         <div class="register-left">
-            <img src="images/register.png" alt="Login Illustration">
+            <img src="../images/register.png" alt="Login Illustration">
         </div>
         <div class="register-right">
             <div class="form-box">

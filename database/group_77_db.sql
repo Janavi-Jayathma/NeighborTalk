@@ -11,6 +11,15 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('admin','user') NOT NULL
 );
 
+CREATE TABLE donations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    amount DECIMAL(10,2),
+    attachment VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Default accounts
 INSERT INTO users (name, email, username, password, role) 
 VALUES 

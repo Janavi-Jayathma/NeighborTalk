@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "db.php";
+require_once "../database/db.php";
 
 $error = "";
 $success = "";
@@ -61,12 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group 77 - Register</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body class="register-page">
     <div class="register-container">
             <div class="register-left">
-                <img src="images/register.png" alt="Security Illustration">
+                <img src="../images/register.png" alt="Security Illustration">
             </div>
             <div class="register-right">
                 <div class="form-box">

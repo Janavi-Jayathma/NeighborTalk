@@ -293,3 +293,247 @@ body {
 }
 
 
+/* ----- About Us Header Section ----- */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.about-header {
+    background-color: #dbe4ff; /* light blue background */
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.about-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #00048B;
+}
+
+.about-header p {
+    font-size: 1.125rem;
+    color: #333;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* ----- Vision & Mission Cards ----- */
+.vision-mission {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 3rem 2rem;
+}
+
+.vision-mission .card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.vision-mission .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+.vision-mission h2 {
+    color: #4b67e1;
+    margin-bottom: 1rem;
+}
+
+.vision-mission p {
+    color: #333;
+    line-height: 1.5;
+}
+
+/* ----- Core Principles Grid (Fixed Overlap) ----- */
+.core-principles {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.core-principles h2 {
+    color: #00048B;
+    margin-bottom: 2.5rem;
+    font-size: 2rem;
+}
+
+.principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center; /* centers cards in their columns */
+    align-items: stretch; /* ensures equal height cards */
+}
+
+.principle {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%; /* ensures card fits inside grid column */
+    max-width: 300px; /* optional max width */
+    box-sizing: border-box; /* prevents padding from overflowing */
+}
+
+.principle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.principle h3 {
+    color: #4b67e1;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.principle p {
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ----- Support Page Styles ----- */
+/* ----- Global ----- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* ----- Support Header ----- */
+.support-header {
+    background-color: #dbe4ff;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.support-header h1 {
+    font-size: 2.5rem;
+    color: #00048B;
+    margin-bottom: 1rem;
+}
+
+.support-header p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+/* ----- FAQ Section ----- */
+.faq-section {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.faq-section h2 {
+    font-size: 2rem;
+    color: #00048B;
+    margin-bottom: 2.5rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+}
+
+.faq-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+}
+
+.faq-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.faq-card h3 {
+    color: #4b67e1;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.faq-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* ----- Contact Form ----- */
+.contact-support {
+    padding: 3rem 2rem;
+    max-width: 800px;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.contact-support h2 {
+    font-size: 2rem;
+    color: #00048B;
+    margin-bottom: 1rem;
+}
+
+.contact-support p {
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+}
+
+.contact-support form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-support input,
+.contact-support textarea {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    resize: none;
+}
+
+.contact-support button {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #4b67e1;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-support button:hover {
+    background-color: #2e46b1;
+}
