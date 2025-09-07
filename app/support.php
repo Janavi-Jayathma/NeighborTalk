@@ -1,18 +1,12 @@
 <?php
-// --- Include Styles & Header ---
-require_once '../components_styles.css';
-include '../components/header.php';
+
+require_once '../database/db.php';
 
 // Page title
 $page_title = "Support | ABC Company";
 
-// Database connection
-$host = "localhost";
-$username = "root";
-$password = ""; // your DB password
-$dbname = "group_77_db"; // change to your DB name
 
-$conn = new mysqli($host, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
@@ -51,15 +45,22 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : 'ABC Company'; ?></title>
     <link rel="stylesheet" href="app_styles.css">
+    <link rel="stylesheet" href="../components/components_styles.css">
 </head>
+
 <body>
+    <?php
+    $page_title = "Home - Group 77";
+    include '../components/header.php';
+    ?>
     <main class="main-content">
-        <div class="support-header">
+        <div class="topic-header">
             <h1>Support</h1>
             <p>I'm a paragraph. Click here to add your own text and edit me. I'm a great place for you to tell a story and let your users know a little more about you.</p>
         </div>
@@ -102,6 +103,7 @@ $conn->close();
         </div>
     </main>
 </body>
+
 </html>
 
 <?php
