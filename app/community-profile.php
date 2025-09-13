@@ -1,52 +1,96 @@
-</html>
+<?php
+include '../database/db.php';
+session_start();
+
+// Set the community ID or admin username
+$username = $_SESSION['username'] ?? null;
+$community = null;
+$principles = [];
+
+// Fetch community details
+$stmt = $conn->prepare("SELECT id, name, vision, mission FROM communities WHERE admin_username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$community = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+// Fetch core principles
+if ($community && $community['id']) {
+    $community_id = $community['id'];
+    $stmt = $conn->prepare("SELECT principle, description FROM community_principles WHERE community_id = ? ORDER BY id ASC");
+    $stmt->bind_param("i", $community_id);
+    $stmt->execute();
+    $principles = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group 77 - Community Profile</title>
-    <link rel="stylesheet" href="./app_styles.css">
-    <link rel="stylesheet" href="../components/components_styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?php echo htmlspecialchars($community['name'] ?? 'Community'); ?></title>
+  <link rel="stylesheet" href="app_styles.css">
+  <link rel="stylesheet" href="../components/components_styles.css">
 </head>
-<?php
-$page_title = "Home - Group 77";
-include '../components/header.php';
-?>
 
 <body>
-    <main>
+  <?php
+    $page_title = $community['name'] ?? 'Community';
+    include '../components/header.php';
+  ?>
+  <main>
+    <!-- Community Profile Header Section -->
+    <div class="topic-header">
+      <h1><?php echo htmlspecialchars($community['name'] ?? 'Community'); ?></h1>
+      <a href="events.php" class="btn-blue">Community Events</a>
+    </div>
+    
 
-        <h2>Community Profile</h2>
-        <div class="profile-grid">
-            <div class="profile-head">
-                <div class="user-avatar" style="width: 250px; height: 250px;">
-                    <img src="../images/avatars/<?php echo htmlspecialchars($_SESSION['username']); ?>.png" alt="User Avatar">
-                </div>
+    <?php
+    if (htmlspecialchars($_SESSION['role']) == 'admin') {
+      echo '<div style="width: 100%; margin: auto; display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+      <a href="community-profile-edit.php" class="btn-blue">Edit Community Details</a>
+      <a href="../app/add_event.php" class="btn-blue">Add New Event</a>
+    </div>';
+    }
+    ?>
 
-            </div>
-            <div class="profile-information">
-                <a href="./community-profile.php" class="btn-blue" >Community Edit</a>
-                <form action="" method="post" >
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name">
-                    <label for="contact_number">Contact Number</label>
-                    <input type="text" id="contact_number" name="contact_number">
-                    <label for="email_address">Email Address</label>
-                    <input type="email" id="email_address" name="email_address">
-                    <label for="address">Address</label>
-                    <textarea id="address" name="address"></textarea>
-                    <label for="moderator">Moderator</label>
-                    <input type="moderator" id="moderator" name="moderator">
-                    <label for="category">Category</label>
-                    <input type="category" id="category" name="category">
-                    <button type="submit" class="btn-blue">Save Changes</button>
-                </form>
-            </div>
-        </div>
-    </main>
+
+    <!-- Vision and Mission -->
+    <section class="vision-mission">
+      <div class="outlined-card-wrap card-wrap">
+        <h2>Our Vision</h2>
+        <p><?php echo htmlspecialchars($community['vision'] ?? 'Community vision will appear here.'); ?></p>
+      </div>
+      <div class="outlined-card-wrap card-wrap">
+        <h2>Our Mission</h2>
+        <p><?php echo htmlspecialchars($community['mission'] ?? 'Community mission will appear here.'); ?></p>
+      </div>
+    </section>
+
+    <!-- Core Principles -->
+  <section class="outlined-card-wrap">
+    <h2 style="text-align: center;">Core Principles</h2>
+    <div class="principles-grid">
+      <?php if (!empty($principles)): ?>
+        <?php foreach ($principles as $p): ?>
+          <div class="principle-p-wrap">
+            <h2><?php echo htmlspecialchars($p['principle']); ?></h2>
+            <p><?php echo htmlspecialchars($p['description']); ?></p>
+          </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p style="text-align:center;">No principles found for this community.</p>
+      <?php endif; ?>
+    </div>
+  </section>
+  </main>
 </body>
 <?php
+// Include footer
 include '../components/footer.php';
 ?>
 

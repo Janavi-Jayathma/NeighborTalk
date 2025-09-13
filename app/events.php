@@ -1,17 +1,20 @@
 <?php
+session_start();
 require_once '../database/db.php';
 // You can set a page title dynamically from any page using:
-$page_title = "Event page | ABC Community";
+$page_title = "Events page | ABC Community";
 
-// You would typically handle form submission logic here
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Process the contact form data
-    $name = $_POST['name'];
-    $contact_number = $_POST['contact_number'];
-    $email_address = $_POST['email_address'];
-    $description = $_POST['description'];
-    // ... validation and database insertion ...
+$sql = "SELECT e.*, c.name AS community_name, u.username AS admin_username 
+        FROM events e
+        JOIN communities c ON e.community_id = c.id
+        JOIN users u ON c.admin_id = u.user_id
+        ORDER BY e.created_at DESC";
+
+$result = $conn->query($sql);
+if (!$result) {
+    die("Query failed: " . $conn->error);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,45 +32,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $page_title = "Home - Group 77";
     include '../components/header.php';
     ?>
-    <main >
+    <main>
         <div class="topic-header">
             <h1>Events</h1>
             <p>I'm a paragraph. Click here to add your own text and edit me. I'm a great place for you to tell a story and let your users know a little more about you.</p>
         </div>
 
-        <ul class="nav-links-events">
-            <li><a href="" >Upcoming Events</a></li>
-            <li><a href="" >Past Events</a></li>
-        </ul>
+        <div style="margin-bottom: 20px;">
+            <button class="btn-blue">Upcoming Events</button>
+            <button class="btn-blue">Past Events</button>
+        </div>
 
         <div class="content-section">
-                    <div class="topic-cards">
-                        <div class="card">
-                            <div class="card-image"></div>
+            <div class="topic-cards">
+                <?php
+                if ($result && $result->num_rows > 0) {
+                    while ($event = $result->fetch_assoc()) {
+                        // Find uploaded image for this event
+                        $files = glob("../event_uploads/{$event['id']}.*");
+                        $imagePath = count($files) ? $files[0] : "../images/event-sample.png";
+                        ?>
+                        <a class="card" href="event_page.php?id=<?php echo $event['id']; ?>">
+                            <img src="<?php echo $imagePath; ?>" alt="Event Image">
                             <div class="card-content">
-                                <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                                <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
+                                <h3><?php echo htmlspecialchars($event['title']); ?></h3>
+                                <p><?php echo htmlspecialchars($event['description']); ?></p>
+                                <small>Community: <?php echo htmlspecialchars($event['community_name']); ?></small>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-image"></div>
-                            <div class="card-content">
-                                <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                                <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-image"></div>
-                            <div class="card-content">
-                                <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                                <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                            </div>
-                        </div>
-                </div>        
-        
+                        </a>
+                        <?php
+                    }
+                } else {
+                    echo "<p>No events found.</p>";
+                }
+                ?>
+            </div>
 
-
-        
+        </div>
     </main>
 
     <!-- Footer -->
@@ -80,4 +81,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Include footer
 include '../components/footer.php';
 ?>
-

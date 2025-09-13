@@ -15,7 +15,7 @@
         </div>
         <div class="footer-section footer-right">
             <?php if (isset($_SESSION['username'])): ?>
-                <a href="logout.php" class="btn-red">Log Out</a>
+                <a href="../auth/logout.php" class="btn-red">Log Out</a>
                 <a href="profile.php" class="btn-blue">Profile</a>
             <?php else: ?>
                 <a href="../auth/login.php" class="btn-blue">Login</a>

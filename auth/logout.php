@@ -4,6 +4,6 @@
 	unset($_SESSION["username"]);
 	unset($_SESSION["role"]);
 	if(session_destroy()) {
-      header("Location: login.php"); //redirects to the login page
+      header("Location: ../app/home.php"); //redirects to the login page
    }
 ?>

@@ -39,7 +39,7 @@
 
     <!-- Core Principles -->
     <section class="outlined-card-wrap">
-      <h2>Core Principles</h2>
+      <h2 style="text-align: center;">Core Principles</h2>
       <div class="principles-grid ">
         <div class="principle-p-wrap">
           <h2>Core Principles</h2>

@@ -9,7 +9,7 @@
 
         <ul class="nav-links">
             <li><a href="home.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>">Home</a></li>
-            <li><a href="events.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'stay-informed.php') ? 'active' : ''; ?>">Stay Informed</a></li>
+            <li><a href="events.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'events.php') ? 'active' : ''; ?>">Events</a></li>
             <li><a href="support.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'support.php') ? 'active' : ''; ?>">Support Us</a></li>
             <li><a href="contact.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'contact.php') ? 'active' : ''; ?>">Contact Us</a></li>
             <li><a href="about.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'about.php') ? 'active' : ''; ?>">About Us</a></li>
@@ -17,9 +17,11 @@
 
         <div class="right">
             <?php
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             if (isset($_SESSION['username'])): ?>
-                <a href="create-post.php" class="btn-blue">Create a Post</a>
+                <a href="create_post_page.php" class="btn-blue">Create a Post</a>
                 <!-- If logged in: show profile avatar -->
                 <a href="./profile.php" class="user-avatar">
                     <div class="avatar-circle">

@@ -1,3 +1,26 @@
+<?php
+session_start();
+require_once '../database/db.php';
+$page_title = "Home - Group 77";
+
+// Fetch latest 5 posts for Featured Topics
+$postsQuery = "SELECT p.id, p.title, p.content, u.username AS author 
+               FROM posts p
+               JOIN users u ON p.user_id = u.user_id
+               ORDER BY p.created_at DESC
+               LIMIT 5";
+$postsResult = $conn->query($postsQuery);
+
+// Fetch latest 5 events for Recent Updates
+$eventsQuery = "SELECT e.id, e.title, e.description, e.type, c.name AS community_name 
+                FROM events e
+                JOIN communities c ON e.community_id = c.id
+                ORDER BY e.created_at DESC
+                LIMIT 5";
+$eventsResult = $conn->query($eventsQuery);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,37 +54,37 @@ include '../components/header.php';
         </div>
         <div class="main-content">
             <div class="topics-bar">
-                <button class="active">Communities</button>
-                <button>Events</button>
-                <button>Support</button>
-                <button>Learn and Share</button>
+                <a href="communities.php" class="btn-blue">Communities</a>
+                <a href="events.php" class="btn-blue">Events</a>
+                <a href="support.php" class="btn-blue">Support</a>
+                <a href="learn_and_share.php" class="btn-blue">Learn and Share</a>
             </div>
 
             <div class="content-section">
                 <div class="featured-topics">
                     <h2>Featured Topics</h2>
                     <div class="topic-cards">
-                        <div class="card">
-                            <div class="card-image"></div>
-                            <div class="card-content">
-                                <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                                <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-image"></div>
-                            <div class="card-content">
-                                <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                                <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-image"></div>
-                            <div class="card-content">
-                                <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                                <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                            </div>
-                        </div>
+                        <a class="card" href="event_page.php">
+                            <?php
+                            if ($eventsResult && $eventsResult->num_rows > 0) {
+                                while ($event = $eventsResult->fetch_assoc()) {
+                                    $imagePath = "../event_uploads/{$event['id']}.*";
+                                    $files = glob($imagePath);
+                                    $eventImage = count($files) ? $files[0] : "../images/avatars/default.jpg";
+
+                                    echo '<div class="update-item">';
+                                    echo '<img src="' . $eventImage . '" alt="Event Image" class="update-image">';
+                                    echo '<div class="update-content">';
+                                    echo '<h4>' . htmlspecialchars($event['title']) . '</h4>';
+                                    echo '<p>' . htmlspecialchars($event['description']) . '</p>';
+                                    echo '<small>Community: ' . htmlspecialchars($event['community_name']) . '</small>';
+                                    echo '</div></div>';
+                                }
+                            } else {
+                                echo "<p>No events found.</p>";
+                            }
+                            ?>
+                        </a>
                     </div>
                 </div>
 
@@ -71,38 +94,24 @@ include '../components/header.php';
                         <div class="update-item">
                             <div class="update-icon">I</div>
                             <div class="update-content">
-                                <h4>Creating a form that provides custom responses without branching individual questions</h4>
-                                <p>Hello, I'm trying to create a form that provides tailored results based on the respondent's answers. I want the final result to have an image and some text, without the multiple choice response option for every one being "Yes, No, I/A, or Cannot Be Determined".</p>
+                                <?php
+                                if ($postsResult && $postsResult->num_rows > 0) {
+                                    while ($post = $postsResult->fetch_assoc()) {
+                                        echo '<a class="card" href="post_page.php?id=' . $post['id'] . '">';
+                                        echo '<div class="card-content">';
+                                        echo '<h3>' . htmlspecialchars($post['title']) . '</h3>';
+                                        echo '<p>' . htmlspecialchars(substr($post['content'], 0, 150)) . '...</p>';
+                                        echo '<small>By: ' . htmlspecialchars($post['author']) . '</small>';
+                                        echo '</div></a>';
+                                    }
+                                } else {
+                                    echo "<p>No posts found.</p>";
+                                }
+                                ?>
                             </div>
                         </div>
-                        <div class="update-item">
-                            <div class="update-icon">I</div>
-                            <div class="update-content">
-                                <h4>Creating a form that provides custom responses without branching individual questions</h4>
-                                <p>Hello, I'm trying to create a form that provides tailored results based on the respondent's answers. I want the final result to have an image and some text, without the multiple choice response option for every one being "Yes, No, I/A, or Cannot Be Determined".</p>
-                            </div>
-                        </div>
-                        <div class="update-item">
-                            <div class="update-icon">I</div>
-                            <div class="update-content">
-                                <h4>Creating a form that provides custom responses without branching individual questions</h4>
-                                <p>Hello, I'm trying to create a form that provides tailored results based on the respondent's answers. I want the final result to have an image and some text, without the multiple choice response option for every one being "Yes, No, I/A, or Cannot Be Determined".</p>
-                            </div>
-                        </div>
-                        <div class="update-item">
-                            <div class="update-icon">I</div>
-                            <div class="update-content">
-                                <h4>Creating a form that provides custom responses without branching individual questions</h4>
-                                <p>Hello, I'm trying to create a form that provides tailored results based on the respondent's answers. I want the final result to have an image and some text, without the multiple choice response option for every one being "Yes, No, I/A, or Cannot Be Determined".</p>
-                            </div>
-                        </div>
-                        <div class="update-item">
-                            <div class="update-icon">I</div>
-                            <div class="update-content">
-                                <h4>Creating a form that provides custom responses without branching individual questions</h4>
-                                <p>Hello, I'm trying to create a form that provides tailored results based on the respondent's answers. I want the final result to have an image and some text, without the multiple choice response option for every one being "Yes, No, I/A, or Cannot Be Determined".</p>
-                            </div>
-                        </div>
+                        
+                        
                     </div>
                 </div>
             </div>

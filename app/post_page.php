@@ -1,16 +1,36 @@
 <?php
+session_start();
 require_once '../database/db.php';
-// You can set a page title dynamically from any page using:
-$page_title = "Event page | ABC Community";
 
+// Fetch all posts
+$postSql = "SELECT p.*, u.username, u.avatar 
+            FROM posts p 
+            JOIN users u ON p.user_id = u.id 
+            ORDER BY p.created_at DESC";
+$postResult = $conn->query($postSql);
+
+// Handle new comment submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_id'])) {
+    $post_id = intval($_POST['post_id']);
+    $user_id = $_SESSION['user_id']; // logged-in user
+    $comment_text = trim($_POST['comment']);
+
+    if (!empty($comment_text)) {
+        $stmt = $conn->prepare("INSERT INTO comments (post_id, user_id, comment) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $post_id, $user_id, $comment_text);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($page_title) ? $page_title : 'ABC Company'; ?></title>
+    <title>Learn and Share</title>
     <link rel="stylesheet" href="./app_styles.css">
     <link rel="stylesheet" href="../components/components_styles.css">
 </head>
@@ -31,7 +51,10 @@ $page_title = "Event page | ABC Community";
             <div class="post-container">
             <div class="post-header">
                 <div class="community-info">
-                    <img src="avatar.png" alt="Community Logo" class="avatar">
+                    <?php 
+                        $avatarPath = $post['avatar'] ? "../images/avatars/" . $post['avatar'] : "../images/avatars/default.jpg";
+                    ?>
+                    <img src="$avatarPath" alt="Community Logo" class="avatar">
                     <div>
                         <h3>User Demo</h3>
                         <p>Aug 12, 2025</p>
