@@ -50,7 +50,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : 'ABC Company'; ?></title>
-    <link rel="stylesheet" href="app_styles.css">
+    <link rel="stylesheet" href="./app_styles.css">
     <link rel="stylesheet" href="../components/components_styles.css">
 </head>
 
@@ -59,7 +59,7 @@ $conn->close();
     $page_title = "Home - Group 77";
     include '../components/header.php';
     ?>
-    <main class="main-content">
+    <main>
         <div class="topic-header">
             <h1>Support</h1>
             <p>I'm a paragraph. Click here to add your own text and edit me. I'm a great place for you to tell a story and let your users know a little more about you.</p>
@@ -92,8 +92,8 @@ $conn->close();
                         </div>
                     </div>
                     <div class="form-buttons">
-                        <button type="submit" class="btn donate-btn">Donate</button>
-                        <button type="reset" class="btn clear-btn">Clear</button>
+                        <button type="submit" class="btn-blue">Donate</button>
+                        <button type="reset" class="btn-red">Clear</button>
                     </div>
                 </form>
             </div>

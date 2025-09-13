@@ -9,19 +9,19 @@
 
         <ul class="nav-links">
             <li><a href="home.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>">Home</a></li>
-            <li><a href="stay-informed.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'stay-informed.php') ? 'active' : ''; ?>">Stay Informed</a></li>
+            <li><a href="events.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'stay-informed.php') ? 'active' : ''; ?>">Stay Informed</a></li>
             <li><a href="support.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'support.php') ? 'active' : ''; ?>">Support Us</a></li>
             <li><a href="contact.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'contact.php') ? 'active' : ''; ?>">Contact Us</a></li>
             <li><a href="about.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'about.php') ? 'active' : ''; ?>">About Us</a></li>
         </ul>
 
         <div class="right">
-            <!-- Always show Create Post button -->
-            <a href="create-post.php" class="btn create-btn">Create a Post</a>
-
-            <?php if (isset($_SESSION['username'])): ?>
+            <?php
+            session_start();
+            if (isset($_SESSION['username'])): ?>
+                <a href="create-post.php" class="btn-blue">Create a Post</a>
                 <!-- If logged in: show profile avatar -->
-                <a href="profile.php" class="user-avatar">
+                <a href="./profile.php" class="user-avatar">
                     <div class="avatar-circle">
                         <?php
                         // Show first letter of username if no profile image

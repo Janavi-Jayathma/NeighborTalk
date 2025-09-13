@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : 'ABC Company'; ?></title>
-    <link rel="stylesheet" href="app_styles.css">
+    <link rel="stylesheet" href="./app_styles.css">
     <link rel="stylesheet" href="../components/components_styles.css">
 </head>
 

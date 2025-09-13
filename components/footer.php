@@ -15,11 +15,11 @@
         </div>
         <div class="footer-section footer-right">
             <?php if (isset($_SESSION['username'])): ?>
-                <a href="logout.php" class="btn logout-btn">Log Out</a>
-                <a href="profile.php" class="btn profile-btn">Profile</a>
+                <a href="logout.php" class="btn-red">Log Out</a>
+                <a href="profile.php" class="btn-blue">Profile</a>
             <?php else: ?>
-                <a href="../auth/login.php" class="btn login-btn">Login</a>
-                <a href="../auth/register.php" class="btn register-btn">Register</a>
+                <a href="../auth/login.php" class="btn-blue">Login</a>
+                <a href="../auth/register.php" class="btn-blue">Register</a>
             <?php endif; ?>
         </div>
     </div>
