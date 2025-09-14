@@ -38,11 +38,6 @@ if (!$result) {
             <p>I'm a paragraph. Click here to add your own text and edit me. I'm a great place for you to tell a story and let your users know a little more about you.</p>
         </div>
 
-        <div style="margin-bottom: 20px;">
-            <button class="btn-blue">Upcoming Events</button>
-            <button class="btn-blue">Past Events</button>
-        </div>
-
         <div class="content-section">
             <div class="topic-cards">
                 <?php

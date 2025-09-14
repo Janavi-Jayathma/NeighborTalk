@@ -63,11 +63,13 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     content TEXT,
     attachment VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_posts_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS events (

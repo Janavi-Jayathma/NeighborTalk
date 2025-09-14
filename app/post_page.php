@@ -2,26 +2,78 @@
 session_start();
 require_once '../database/db.php';
 
-// Fetch all posts
-$postSql = "SELECT p.*, u.username, u.avatar 
+//Get post id from URL
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("Invalid post ID.");
+}
+$post_id = intval($_GET['id']);
+
+//Fetch single post with user info
+$postSql = "SELECT p.*, u.username 
             FROM posts p 
-            JOIN users u ON p.user_id = u.id 
-            ORDER BY p.created_at DESC";
-$postResult = $conn->query($postSql);
+            JOIN users u ON p.user_id = u.user_id 
+            WHERE p.id = ?";
 
-// Handle new comment submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_id'])) {
-    $post_id = intval($_POST['post_id']);
-    $user_id = $_SESSION['user_id']; // logged-in user
-    $comment_text = trim($_POST['comment']);
+$stmt = $conn->prepare($postSql);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+$stmt->bind_param("i", $post_id);
+$stmt->execute();
+$postResult = $stmt->get_result();
+$post = $postResult->fetch_assoc();
+$stmt->close();
 
-    if (!empty($comment_text)) {
-        $stmt = $conn->prepare("INSERT INTO comments (post_id, user_id, comment) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $post_id, $user_id, $comment_text);
-        $stmt->execute();
+if (!$post) {
+    die("Post not found.");
+}
+
+//Handle new comment submission
+$commentMessage = "";
+if (isset($_POST['comment_submit'])) {
+    $comment = trim($_POST['comment']);
+    $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+    if (!empty($comment)) {
+        $stmt = $conn->prepare("INSERT INTO post_comments (post_id, user_id, username, comment) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isss", $post_id, $user_id, $username, $comment);
+
+        if ($stmt->execute()) {
+            $commentMessage = "Comment posted!";
+        } else {
+            $commentMessage = "Error: " . $stmt->error;
+        }
+
         $stmt->close();
+    } else {
+        $commentMessage = "Please write a comment before submitting.";
     }
 }
+
+$commentsResult = $conn->query("SELECT * FROM post_comments WHERE post_id = $post_id ORDER BY created_at DESC");
+
+//Fetch comments for this post
+$commentSql = "SELECT c.comment, c.created_at, u.username 
+               FROM post_comments c
+               JOIN users u ON c.user_id = u.user_id
+               WHERE c.post_id = ?
+               ORDER BY c.created_at DESC";
+$stmt = $conn->prepare($commentSql);
+$stmt->bind_param("i", $post_id);
+$stmt->execute();
+$comments = $stmt->get_result();
+$stmt->close();
+
+// Determine user avatar
+$avatarFiles = glob("../images/avatars/{$post['username']}.*");
+$userAvatar = count($avatarFiles) ? $avatarFiles[0] : "../images/avatars/default.jpg";
+
+// Determine event image
+$files = glob("../posts_uploads/{$post['id']}.*");
+$imagePath = count($files) ? $files[0] : "../images/avatars/default.jpg";
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -51,34 +103,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_id'])) {
             <div class="post-container">
             <div class="post-header">
                 <div class="community-info">
-                    <?php 
-                        $avatarPath = $post['avatar'] ? "../images/avatars/" . $post['avatar'] : "../images/avatars/default.jpg";
-                    ?>
-                    <img src="$avatarPath" alt="Community Logo" class="avatar">
+                    <img src="<?php echo $userAvatar; ?>" alt="user image" class="avatar">
                     <div>
-                        <h3>User Demo</h3>
-                        <p>Aug 12, 2025</p>
+                        <h3><?php echo htmlspecialchars($post['username']); ?></h3>
+                        <p><?php echo date("M d, Y", strtotime($post['created_at'])); ?></p>
                     </div>
                 </div>
-                <span class="tag">Views Likes </span>
             </div>
 
             <div class="post-content">
-                <h2>Official Public Health Guidance and and updates</h2>
-                <img src="../images/image.png" alt="Child washing hands" class="post-image">
-                <p>
-                    Consumers expect personalized experiences. But how do you deliver tailored recommendations at scale? 
-                    In this webinar, experts from Blue Robot and Zapier will share how to use the power of product 
-                    recommendation quizzes to engage customers, collect valuable data, and drive conversions.
-                </p>
-                <p>📅 Thursday 20 March at 12PM Eastern Time</p>
-                <p>What you'll learn:</p>
-                <ul>
-                    <li>✅ How to design high-converting quiz campaigns</li>
-                    <li>✅ Best practices for testing and distributing your quizzes</li>
-                    <li>✅ How to integrate quizzes with Zapier & other tools to automate workflows</li>
-                </ul>
-                <p>Spots are limited—register now!</p>
+                <h2><?php echo htmlspecialchars($post['title']); ?></h2>
+                <img src="<?php echo $imagePath; ?>" alt="post_image" class="post-image">
+                <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p></p>
             </div>
 </div>
         </section>
@@ -86,12 +122,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_id'])) {
         <!-- Separate Comments Section -->
         <section class="comments-section">
             <h3>Comments</h3>
-            <textarea placeholder="Write your comment..."></textarea>
-            <div class="form-buttons">
-                <button type="submit" class="btn-blue">Publish</button>
-                <button type="reset" class="btn-red">Clear</button>
+            <?php if (!empty($commentMessage)) : ?>
+                <p class="comment-message"><?php echo htmlspecialchars($commentMessage); ?></p>
+            <?php endif; ?>
+
+            <form action="post_page.php?id=<?php echo $post_id; ?>" method="post">
+                <textarea name="comment" placeholder="Write your comment..."></textarea>
+                <button type="submit" name="comment_submit" class="btn-blue">Publish</button>
+            </form>
+
+            <div class="comments-list">
+            <?php
+            if ($commentsResult && $commentsResult->num_rows > 0) {
+                while ($comment = $commentsResult->fetch_assoc()) {
+                    echo '<div class="comment">';
+                    echo '<strong>' . htmlspecialchars($comment['username']) . '</strong>';
+                    echo '<small> - ' . htmlspecialchars($comment['created_at']) . '</small>';
+                    echo '<p>' . nl2br(htmlspecialchars($comment['comment'])) . '</p>';
+                    echo '</div>';
+                }
+            } else {
+                echo "<p>No comments yet.</p>";
+            }
+            ?>
             </div>
-            <small>Log in to publish as a member</small>
         </section>
 
     </main>

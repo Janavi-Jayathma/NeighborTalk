@@ -62,56 +62,57 @@ include '../components/header.php';
 
             <div class="content-section">
                 <div class="featured-topics">
-                    <h2>Featured Topics</h2>
+                    <h2>Recent Updates</h2>
                     <div class="topic-cards">
-                        <a class="card" href="event_page.php">
-                            <?php
-                            if ($eventsResult && $eventsResult->num_rows > 0) {
-                                while ($event = $eventsResult->fetch_assoc()) {
-                                    $imagePath = "../event_uploads/{$event['id']}.*";
-                                    $files = glob($imagePath);
-                                    $eventImage = count($files) ? $files[0] : "../images/avatars/default.jpg";
-
-                                    echo '<div class="update-item">';
-                                    echo '<img src="' . $eventImage . '" alt="Event Image" class="update-image">';
-                                    echo '<div class="update-content">';
-                                    echo '<h4>' . htmlspecialchars($event['title']) . '</h4>';
-                                    echo '<p>' . htmlspecialchars($event['description']) . '</p>';
-                                    echo '<small>Community: ' . htmlspecialchars($event['community_name']) . '</small>';
-                                    echo '</div></div>';
-                                }
-                            } else {
-                                echo "<p>No events found.</p>";
-                            }
-                            ?>
-                        </a>
+                        <div class="featured-topics">
+                        <div class="topic-cards">
+                            <?php if ($eventsResult && $eventsResult->num_rows > 0): ?>
+                                <?php while ($event = $eventsResult->fetch_assoc()): ?>
+                                    <?php
+                                        $imagePath = "../event_uploads/{$event['id']}.*";
+                                        $files = glob($imagePath);
+                                        $eventImage = count($files) ? $files[0] : "../images/avatars/default.jpg";
+                                    ?>
+                                    <a class="card" href="event_page.php?id=<?= $event['id'] ?>">
+                                        <div class="update-item">
+                                            <img src="<?= $eventImage ?>" alt="Event Image" class="update-image">
+                                            <div class="update-content">
+                                                <h4><?= htmlspecialchars($event['title']) ?></h4>
+                                                <p><?= htmlspecialchars($event['description']) ?></p>
+                                                <small>Community: <?= htmlspecialchars($event['community_name']) ?></small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <p>No events found.</p>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
+                 </div>
+            </div>
 
                 <div class="recent-updates">
-                    <h2>Recent Updates</h2>
+                    <h2>Featured Topics</h2>
                     <div class="update-list">
                         <div class="update-item">
                             <div class="update-icon">I</div>
                             <div class="update-content">
-                                <?php
-                                if ($postsResult && $postsResult->num_rows > 0) {
-                                    while ($post = $postsResult->fetch_assoc()) {
-                                        echo '<a class="card" href="post_page.php?id=' . $post['id'] . '">';
-                                        echo '<div class="card-content">';
-                                        echo '<h3>' . htmlspecialchars($post['title']) . '</h3>';
-                                        echo '<p>' . htmlspecialchars(substr($post['content'], 0, 150)) . '...</p>';
-                                        echo '<small>By: ' . htmlspecialchars($post['author']) . '</small>';
-                                        echo '</div></a>';
-                                    }
-                                } else {
-                                    echo "<p>No posts found.</p>";
-                                }
-                                ?>
+                                <?php if ($postsResult && $postsResult->num_rows > 0): ?>
+                                    <?php while ($post = $postsResult->fetch_assoc()): ?>
+                                        <a class="card" href="post_page.php?id=<?= $post['id'] ?>">
+                                            <div class="card-content">
+                                                <h3><?= htmlspecialchars($post['title']) ?></h3>
+                                                <p><?= htmlspecialchars(substr($post['content'], 0, 150)) ?>...</p>
+                                                <small>By: <?= htmlspecialchars($post['author']) ?></small>
+                                            </div>
+                                        </a>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <p>No posts found.</p>
+                                <?php endif; ?>
                             </div>
                         </div>
-                        
-                        
                     </div>
                 </div>
             </div>

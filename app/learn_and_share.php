@@ -1,9 +1,19 @@
 <?php
 require_once '../database/db.php';
-// You can set a page title dynamically from any page using:
 $page_title = "Learn and Share";
 
+// Fetch posts with author details
+$sql = "SELECT p.*, u.username 
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        ORDER BY p.created_at DESC";
+
+$result = $conn->query($sql);
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,59 +43,24 @@ $page_title = "Learn and Share";
 
         <div class="content-section">
             <div class="topic-cards">
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-                <a class="card" href="post_page.php">
-                    <img src="../images/event-sample.png" alt="Event Image">
-                    <div class="card-content">
-                        <h3>Ready to give your forms a post-holiday power up? We've got you covered! 🪄</h3>
-                        <p>Summer's here, and it's time to power up your forms. Join us on August 26 for our Summer Release event, a webinar filled with insights, live demos, and an exclusive Q&A session to help you make your forms more powerful and more personalized.</p>
-                    </div>
-                </a>
-
+                <?php if ($result && $result->num_rows > 0): ?>
+                    <?php while ($post = $result->fetch_assoc()): ?>
+                        <?php
+                            $files = glob("../posts_uploads/{$post['id']}.*");
+                            $imagePath = count($files) ? $files[0] : "../images/event-sample.png";
+                        ?>
+                        <a class="card" href="post_page.php?id=<?= $post['id'] ?>">
+                            <img src="<?= $imagePath ?>" alt="Post Image">
+                            <div class="card-content">
+                                <h3><?= htmlspecialchars($post['title']) ?></h3>
+                                <p><?= htmlspecialchars(substr($post['content'], 0, 200)) ?>...</p>
+                                <small>By: <?= htmlspecialchars($post['username']) ?></small>
+                            </div>
+                        </a>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p>No posts found.</p>
+                <?php endif; ?>
             </div>
         </div>
     </main>

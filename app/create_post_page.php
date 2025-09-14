@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../database/db.php';
 // You can set a page title dynamically from any page using:
 $page_title = "Share your thoughts";
@@ -8,26 +9,61 @@ if ($conn->connect_error) {
     die("Database connection failed: " . $conn->connect_error);
 }
 
+// Ensure user is logged in
+if (!isset($_SESSION['username'])) {
+    die("You must be logged in to create a post.");
+}
+$username = $_SESSION['username'];
+
+// Get user_id from username
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
+
+if (!$user) {
+    die("User not found.");
+}
+
+$user_id = $user['user_id'];
+
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = trim($_POST['title']);
     $description = trim($_POST['description']);
     $content = trim($_POST['content']);
 
-    // File upload
-    $attachmentPath = null;
-    if (!empty($_FILES['attachment']['name']) && $_FILES['attachment']['error'] === 0) {
-        $uploadDir = "../posts_uploads/";
-        if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-        $attachmentPath = $uploadDir . basename($_FILES["attachment"]["name"]);
-        move_uploaded_file($_FILES["attachment"]["tmp_name"], $attachmentPath);
-    }
+    // Insert into events table without attachment first
+    $stmt = $conn->prepare("INSERT INTO posts (user_id, title, description, content) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("isss", $user_id, $title, $description, $content);
 
-    // Insert into DB
-    $stmt = $conn->prepare("INSERT INTO posts (title, description, content, attachment) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $title, $description, $content, $attachmentPath);
+    if ($stmt->execute()) {
+        // Get the inserted event ID
+        $post_id = $stmt->insert_id;
+
+    // Handle file upload if exists
+        if (!empty($_FILES['attachment']['name']) && $_FILES['attachment']['error'] === 0) {
+            $uploadDir = "../posts_uploads/";
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            // Extract original file extension
+            $ext = pathinfo($_FILES["attachment"]["name"], PATHINFO_EXTENSION);
+            $attachmentPath = $uploadDir . $post_id . "." . $ext;
+
+            move_uploaded_file($_FILES["attachment"]["tmp_name"], $attachmentPath);
+
+            // Update the event record with attachment path
+            $updateStmt = $conn->prepare("UPDATE posts SET attachment = ? WHERE id = ?");
+            $updateStmt->bind_param("si", $attachmentPath, $post_id);
+            $updateStmt->execute();
+            $updateStmt->close();
+        }
+
+    
 
     if ($stmt->execute()) {
         echo "<script>alert('Post published successfully!');</script>";
@@ -38,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 }
 $conn->close();
+} 
 
 ?>
 <!DOCTYPE html>
