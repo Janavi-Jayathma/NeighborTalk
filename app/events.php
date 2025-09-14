@@ -48,7 +48,7 @@ if (!$result) {
                         $imagePath = count($files) ? $files[0] : "../images/event-sample.png";
                         ?>
                         <a class="card" href="event_page.php?id=<?php echo $event['id']; ?>">
-                            <img src="<?php echo $imagePath; ?>" alt="Event Image">
+                            <img src="<?php echo $imagePath; ?>" alt="Event Image" class="card-image">
                             <div class="card-content">
                                 <h3><?php echo htmlspecialchars($event['title']); ?></h3>
                                 <p><?php echo htmlspecialchars($event['description']); ?></p>

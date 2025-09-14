@@ -64,8 +64,6 @@ include '../components/header.php';
                 <div class="featured-topics">
                     <h2>Recent Updates</h2>
                     <div class="topic-cards">
-                        <div class="featured-topics">
-                        <div class="topic-cards">
                             <?php if ($eventsResult && $eventsResult->num_rows > 0): ?>
                                 <?php while ($event = $eventsResult->fetch_assoc()): ?>
                                     <?php
@@ -74,33 +72,31 @@ include '../components/header.php';
                                         $eventImage = count($files) ? $files[0] : "../images/avatars/default.jpg";
                                     ?>
                                     <a class="card" href="event_page.php?id=<?= $event['id'] ?>">
-                                        <div class="update-item">
-                                            <img src="<?= $eventImage ?>" alt="Event Image" class="update-image">
+                                      
+                                            <img src="<?= $eventImage ?>" alt="Event Image">
                                             <div class="update-content">
                                                 <h4><?= htmlspecialchars($event['title']) ?></h4>
                                                 <p><?= htmlspecialchars($event['description']) ?></p>
                                                 <small>Community: <?= htmlspecialchars($event['community_name']) ?></small>
                                             </div>
-                                        </div>
+                                  
                                     </a>
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <p>No events found.</p>
                             <?php endif; ?>
-                        </div>
-                    </div>
+                      
                  </div>
             </div>
 
                 <div class="recent-updates">
                     <h2>Featured Topics</h2>
                     <div class="update-list">
-                        <div class="update-item">
-                            <div class="update-icon">I</div>
-                            <div class="update-content">
+                  
                                 <?php if ($postsResult && $postsResult->num_rows > 0): ?>
                                     <?php while ($post = $postsResult->fetch_assoc()): ?>
                                         <a class="card" href="post_page.php?id=<?= $post['id'] ?>">
+
                                             <div class="card-content">
                                                 <h3><?= htmlspecialchars($post['title']) ?></h3>
                                                 <p><?= htmlspecialchars(substr($post['content'], 0, 150)) ?>...</p>
@@ -111,8 +107,7 @@ include '../components/header.php';
                                 <?php else: ?>
                                     <p>No posts found.</p>
                                 <?php endif; ?>
-                            </div>
-                        </div>
+                
                     </div>
                 </div>
             </div>

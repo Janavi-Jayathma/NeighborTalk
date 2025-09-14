@@ -134,38 +134,8 @@ $conn->close();
             </div>
 </div>
         </section>
-
-        <!-- Separate Comments Section -->
-        <section class="comments-section">
-            <h3>Comments</h3>
-            <?php if (!empty($commentMessage)) : ?>
-                <p class="comment-message"><?php echo htmlspecialchars($commentMessage); ?></p>
-            <?php endif; ?>
-
-            <form action="event_page.php?id=<?php echo $event_id; ?>" method="post">
-                <textarea name="comment" placeholder="Write your comment..."></textarea>
-                <button type="submit" name="comment_submit" class="btn-blue">Publish</button>
-            </form>
-
-            <div class="comments-list">
-            <?php
-            if ($commentsResult && $commentsResult->num_rows > 0) {
-                while ($comment = $commentsResult->fetch_assoc()) {
-                    echo '<div class="comment">';
-                    echo '<strong>' . htmlspecialchars($comment['username']) . '</strong>';
-                    echo '<small> - ' . htmlspecialchars($comment['created_at']) . '</small>';
-                    echo '<p>' . nl2br(htmlspecialchars($comment['comment'])) . '</p>';
-                    echo '</div>';
-                }
-            } else {
-                echo "<p>No comments yet.</p>";
-            }
-            ?>
-            </div>
-        </section>
-
-
-        <div class="donations-container">
+        <div class="event-bottom-wrap">
+            <div class="donations-container center-card-wrap" >
             <div class="donations-form-section">
                 <h2>Register to the event</h2>
                 <div class="donation-info">
@@ -183,6 +153,38 @@ $conn->close();
                     <button type="submit" class="btn-blue" name="register_submit">Register</button>
                 </form>
             </div>
+             </div>
+        <!-- Separate Comments Section -->
+            <section class="comments-section">
+                <h3>Comments</h3>
+                <?php if (!empty($commentMessage)) : ?>
+                    <p class="comment-message"><?php echo htmlspecialchars($commentMessage); ?></p>
+                <?php endif; ?>
+
+                <form action="event_page.php?id=<?php echo $event_id; ?>" method="post">
+                    <textarea name="comment" placeholder="Write your comment..."></textarea>
+                    <button type="submit" name="comment_submit" class="btn-blue">Publish</button>
+                </form>
+
+                <div class="comments-list">
+                <?php
+                if ($commentsResult && $commentsResult->num_rows > 0) {
+                    while ($comment = $commentsResult->fetch_assoc()) {
+                        echo '<div class="comment">';
+                        echo '<strong>' . htmlspecialchars($comment['username']) . '</strong>';
+                        echo '<small> - ' . htmlspecialchars($comment['created_at']) . '</small>';
+                        echo '<p>' . nl2br(htmlspecialchars($comment['comment'])) . '</p>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "<p>No comments yet.</p>";
+                }
+                ?>
+                </div>
+            </section>
+
+
+        
         </div>
     </main>
 
