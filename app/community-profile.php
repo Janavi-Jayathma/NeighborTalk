@@ -3,9 +3,9 @@ include '../database/db.php';
 session_start();
 
 // Set the community ID or admin username
-$username = $_SESSION['username'] ?? null;
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 $community = null;
-$principles = [];
+$principles = array();
 
 // Fetch community details
 $stmt = $conn->prepare("SELECT id, name, vision, mission FROM communities WHERE admin_username = ?");
@@ -31,21 +31,22 @@ if ($community && $community['id']) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo htmlspecialchars($community['name'] ?? 'Community'); ?></title>
+  <title><?php echo htmlspecialchars(isset($community['name']) ? $community['name'] : 'Community'); ?></title>
   <link rel="stylesheet" href="app_styles.css">
   <link rel="stylesheet" href="../components/components_styles.css">
 </head>
 
 <body>
   <?php
-    $page_title = $community['name'] ?? 'Community';
+    $page_title = isset($community['name']) ? $community['name'] : 'Community';
     include '../components/header.php';
   ?>
   <main>
     <!-- Community Profile Header Section -->
     <div class="topic-header">
-      <h1><?php echo htmlspecialchars($community['name'] ?? 'Community'); ?></h1>
-      <a href="events.php" class="btn-blue">Community Events</a>
+      <h1><?php echo htmlspecialchars(isset($community['name']) ? $community['name'] : 'Community'); ?></h1>
+      <a href="events.php?community_id=<?= urlencode($community['id']) ?>" class="btn-blue">Community Events</a>
+
     </div>
     
 
@@ -63,11 +64,11 @@ if ($community && $community['id']) {
     <section class="vision-mission">
       <div class="outlined-card-wrap card-wrap">
         <h2>Our Vision</h2>
-        <p><?php echo htmlspecialchars($community['vision'] ?? 'Community vision will appear here.'); ?></p>
+        <p><?php echo htmlspecialchars(isset($community['vision']) ? $community['vision'] : 'Community vision will appear here.'); ?></p>
       </div>
       <div class="outlined-card-wrap card-wrap">
         <h2>Our Mission</h2>
-        <p><?php echo htmlspecialchars($community['mission'] ?? 'Community mission will appear here.'); ?></p>
+        <p><?php echo htmlspecialchars(isset($community['mission']) ? $community['mission'] : 'Community mission will appear here.'); ?></p>
       </div>
     </section>
 

@@ -7,6 +7,7 @@ $page_title = "Home - Group 77";
 $postsQuery = "SELECT p.id, p.title, p.content, u.username AS author 
                FROM posts p
                JOIN users u ON p.user_id = u.user_id
+               WHERE p.status = 'approved'
                ORDER BY p.created_at DESC
                LIMIT 5";
 $postsResult = $conn->query($postsQuery);
@@ -15,6 +16,7 @@ $postsResult = $conn->query($postsQuery);
 $eventsQuery = "SELECT e.id, e.title, e.description, e.type, c.name AS community_name 
                 FROM events e
                 JOIN communities c ON e.community_id = c.id
+                WHERE e.status = 'approved'
                 ORDER BY e.created_at DESC
                 LIMIT 5";
 $eventsResult = $conn->query($eventsQuery);
@@ -43,20 +45,12 @@ include '../components/header.php';
             <div class="hero-content">
                 <h1>Welcome to our community</h1>
                 <p>Learn. Share. Grow with us.</p>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search a topic, a user, a post, etc">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </div>
             </div>
         </div>
         <div class="main-content">
             <div class="topics-bar">
                 <a href="communities.php" class="btn-blue">Communities</a>
                 <a href="events.php" class="btn-blue">Events</a>
-                <a href="support.php" class="btn-blue">Support</a>
                 <a href="learn_and_share.php" class="btn-blue">Learn and Share</a>
             </div>
 

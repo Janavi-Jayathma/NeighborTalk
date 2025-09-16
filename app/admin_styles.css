@@ -1,0 +1,95 @@
+.admin-container {
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background: #f0f4ff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.stat-card span {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 5px;
+  color: #0073e6;
+}
+
+.admin-actions {
+  display: flex;
+  justify-content: center; 
+  gap: 1rem;               
+  margin: 20px 0;
+}
+
+.recent-activity {
+  margin: 30px 0;
+}
+
+.recent-activity table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-activity th, .recent-activity td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.recent-activity th {
+  background: #0073e6;
+  color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-family: "Poppins", sans-serif;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+th {
+  background: #0073e6;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+notice {
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 5px;
+  background: #e8f4ff;
+  color: #0056b3;
+  font-weight: bold;
+}
+
+.role-select {
+    padding: 5px 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
