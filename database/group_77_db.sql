@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS communities (
     name VARCHAR(100),
     vision TEXT,
     mission TEXT,
+    admin_id INT,
     FOREIGN KEY (admin_username) REFERENCES users(username)
 );
 

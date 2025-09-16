@@ -28,6 +28,33 @@ if (!$post) {
     die("Post not found.");
 }
 
+// --- Handle comment delete ---
+if (isset($_GET['delete_comment']) && is_numeric($_GET['delete_comment'])) {
+    $comment_id = intval($_GET['delete_comment']);
+
+    // Fetch current user role + id
+    $currentUserId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+    $currentRole = isset($_SESSION['role']) ? $_SESSION['role'] : null;
+
+    // Fetch comment info
+    $checkStmt = $conn->prepare("SELECT user_id FROM post_comments WHERE id = ? AND post_id = ?");
+    $checkStmt->bind_param("ii", $comment_id, $post_id);
+    $checkStmt->execute();
+    $checkStmt->bind_result($commentUserId);
+    $checkStmt->fetch();
+    $checkStmt->close();
+
+    // Allow delete if super_admin OR post owner
+    if ($currentRole === 'super_admin' || $currentUserId == $post['user_id']) {
+        $delStmt = $conn->prepare("DELETE FROM post_comments WHERE id = ?");
+        $delStmt->bind_param("i", $comment_id);
+        $delStmt->execute();
+        $delStmt->close();
+        header("Location: post_page.php?id=" . $post_id);
+        exit;
+    }
+}
+
 //Handle new comment submission
 $commentMessage = "";
 if (isset($_POST['comment_submit'])) {
@@ -57,7 +84,7 @@ $commentsResult = $conn->query("SELECT * FROM post_comments WHERE post_id = $pos
 $commentSql = "SELECT c.comment, c.created_at, u.username 
                FROM post_comments c
                JOIN users u ON c.user_id = u.user_id
-               WHERE c.post_id = ?
+               WHERE c.id = ?
                ORDER BY c.created_at DESC";
 $stmt = $conn->prepare($commentSql);
 $stmt->bind_param("i", $post_id);
@@ -139,6 +166,15 @@ $conn->close();
                     echo '<strong>' . htmlspecialchars($comment['username']) . '</strong>';
                     echo '<small> - ' . htmlspecialchars($comment['created_at']) . '</small>';
                     echo '<p>' . nl2br(htmlspecialchars($comment['comment'])) . '</p>';
+
+                    // Show delete button for super_admin, post owner, or comment owner
+                    if (
+                        (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') ||
+                        (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == $post['user_id'] || $_SESSION['user_id'] == $comment['user_id']))
+                    ) {
+                        echo '<a href="post_page.php?id=' . $post_id . '&delete_comment=' . $comment['id'] . '" class="btn-red" onclick="return confirm(\'Delete this comment?\')">Delete</a>';
+                    }
+
                     echo '</div>';
                 }
             } else {

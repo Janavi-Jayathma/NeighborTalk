@@ -12,14 +12,28 @@ $sql = "SELECT p.*, u.username
         JOIN users u ON p.user_id = u.user_id";
 
 // Add WHERE clause properly
-if ($showMyPosts && isset($_SESSION['user_id'])) {
-    $userId = intval($_SESSION['user_id']);
-    // Show ALL posts of this user (no status filter)
-    $sql .= " WHERE p.user_id = $userId";
+if ($showMyPosts && isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    // Get user_id from username
+    $stmt = $conn->prepare("SELECT user_id FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($userId);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($userId) {
+        $sql .= " WHERE p.user_id = " . intval($userId); // show ALL statuses
+    } else {
+        die("User not found.");
+    }
 } else {
-    // Show only approved posts for others
+    // Show only approved posts for "All Posts"
     $sql .= " WHERE p.status = 'approved'";
 }
+
+
 
 // Add ORDER BY clause at the end
 $sql .= " ORDER BY p.created_at DESC";
@@ -55,7 +69,10 @@ if (!$result) {
 
         <div style="margin-bottom: 20px;">
             <a href="learn_and_share.php" class="btn-blue">All Posts</a>
-            <a href="learn_and_share.php?my_posts=1" class="btn-blue">My Posts</a>
+            <?php if (isset($_SESSION['username'])): ?>
+                <a href="learn_and_share.php?my_posts=1" class="btn-blue">My Posts</a>
+            <?php endif; ?>
+
         </div>
 
         <div class="content-section">
