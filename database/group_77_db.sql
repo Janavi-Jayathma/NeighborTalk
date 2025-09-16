@@ -1,12 +1,13 @@
-CREATE DATABASE IF NOT EXISTS group_77_db;
+CREATE DATABASE IF NOT EXISTS group_77_db_1;
 
-USE group_77_db;
+USE group_77_db_1;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
-    username VARCHAR(50) NOT NULL PRIMARY KEY,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,        -- hashed password
-    role ENUM('user','admin') NOT NULL DEFAULT 'user',
+    role ENUM('user','admin','super_admin') NOT NULL DEFAULT 'user',
     name VARCHAR(100) NOT NULL,
     contact_number VARCHAR(20),
     email_address VARCHAR(100),
@@ -16,21 +17,6 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Donations table
-CREATE TABLE IF NOT EXISTS donations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    amount DECIMAL(10,2),
-    attachment VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Default accounts
-INSERT INTO users (name, email, username, password, role) 
-VALUES 
-('John Doe', 'admin@email.com', 'admin', 'admin', 'admin'),
-('Jane Doe', 'jane.doe@email.com', 'uoc', 'uoc', 'user');
 
 -- Communities table
 CREATE TABLE IF NOT EXISTS communities (
@@ -69,7 +55,8 @@ CREATE TABLE IF NOT EXISTS posts (
     content TEXT,
     attachment VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_posts_user FOREIGN KEY (user_id) REFERENCES users(id)
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    CONSTRAINT fk_posts_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS events (
@@ -82,6 +69,7 @@ CREATE TABLE IF NOT EXISTS events (
     content TEXT NOT NULL,
     attachment VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
     FOREIGN KEY (community_id) REFERENCES communities(id)
 );
 
