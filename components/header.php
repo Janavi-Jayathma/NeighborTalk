@@ -17,7 +17,6 @@ if (session_status() === PHP_SESSION_NONE) {
             <li><a href="events.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'events.php') ? 'active' : ''; ?>">Events</a></li>
             <li><a href="contact.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'contact.php') ? 'active' : ''; ?>">Contact Us</a></li>
             <li><a href="about.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'about.php') ? 'active' : ''; ?>">About Us</a></li>
-            <li><a href="help.php" class="<?php echo (basename($_SERVER['PHP_SELF']) == 'help.php') ? 'active' : ''; ?>">Help</a></li>
 
             <?php
             if (isset($_SESSION['role']) && $_SESSION['role'] === 'super_admin') {

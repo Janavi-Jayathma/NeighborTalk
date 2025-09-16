@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("isss", $user_id, $title, $description, $content);
 
     if ($stmt->execute()) {
-        // Get the inserted event ID
         $post_id = $stmt->insert_id;
 
     // Handle file upload if exists
@@ -61,13 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $updateStmt->bind_param("si", $attachmentPath, $post_id);
             $updateStmt->execute();
             $updateStmt->close();
+
+            echo "<script>alert('Post published successfully!');</script>";
         }
-
-    
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Post published successfully!');</script>";
-    } else {
+        else {
         echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
 

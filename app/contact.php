@@ -1,7 +1,7 @@
 <?php
 require_once '../database/db.php';
 // You can set a page title dynamically from any page using:
-$page_title = "Contact Us | ABC Company";
+$page_title = "Help and Support | ABC Company";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             $success_message = "Your message has been sent successfully!";
-            $_POST = [];
+            $_POST = array();
         } else {
             $error_message = "Error: " . $stmt->error;
         }
@@ -54,7 +54,7 @@ $conn->close();
     ?>
     <main >
         <div class="topic-header">
-            <h1>Contact Us</h1>
+            <h1>Help and Support</h1>
             <p>I'm a paragraph. Click here to add your own text and edit me. I'm a great place for you to tell a story and let your users know a little more about you.</p>
         </div>
 
@@ -66,9 +66,9 @@ $conn->close();
                 </div>
                 <form action="contact.php" method="post">
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>">
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars(isset($_POST['name']) ? $_POST['name'] : ''); ?>">
                     <label for="contact_number">Contact Number</label>
-                    <input type="text" id="contact_number" name="contact_number" value="<?php echo htmlspecialchars($_POST['contact_number'] ?? ''); ?>">
+                    <input type="text" id="contact_number" name="contact_number" value="<?php echo htmlspecialchars(isset($_POST['contact_number']) ? $_POST['contact_number'] : ''); ?>">
                     <label for="email_address">Email Address</label>
                     <input type="email" id="email_address" name="email_address" value="<?php echo htmlspecialchars($_POST['email_address'] ?? ''); ?>">
                     <label for="description">Description</label>
@@ -80,6 +80,49 @@ $conn->close();
                 <img src="../images/contact.png" alt="Contact Us Illustration">
             </div>
         </div>
+
+        <h1>Help & Support</h1>
+    <p>Welcome to ABC Community Help Center. Here you can find answers to common questions and guidance on using the platform.</p>
+
+    <!-- FAQ Section -->
+    <section class="help-section">
+        <h2>Frequently Asked Questions (FAQ)</h2>
+
+        <div class="help-item">
+            <p class="faq-question">1. How do I register for an event?</p>
+            <p class="faq-answer">
+                Go to the <a href="events.php" class="btn-blue">Events Page</a>, select an event, and fill out the registration form. You will receive a confirmation after successful registration.
+            </p>
+        </div>
+
+        <div class="help-item">
+            <p class="faq-question">2. How can I post in the "Learn and Share" section?</p>
+            <p class="faq-answer">
+                Navigate to <a href="learn_and_share.php" class="btn-blue">Learn and Share</a>. Click "Add New Post," enter your title, content, and optionally upload an image, then submit for approval.
+            </p>
+        </div>
+
+        <div class="help-item">
+            <p class="faq-question">3. How do I comment on an event or post?</p>
+            <p class="faq-answer">
+                Open the post or event page. Scroll down to the comment section, type your comment, and click "Publish." Your comment will appear immediately if you are logged in.
+            </p>
+        </div>
+
+        <div class="help-item">
+            <p class="faq-question">4. How do I edit or delete my posts or comments?</p>
+            <p class="faq-answer">
+                You can edit or delete your posts and comments using the edit/delete buttons available next to your content. Only super admins or content owners can delete comments.
+            </p>
+        </div>
+
+        <div class="help-item">
+            <p class="faq-question">5. Who can view registered users for an event?</p>
+            <p class="faq-answer">
+                Only the event owner (community admin) or super admins can view registered users. Use the "View Registered Users" button on the event page.
+            </p>
+        </div>
+    </section>
     </main>
 
     <!-- Footer -->
