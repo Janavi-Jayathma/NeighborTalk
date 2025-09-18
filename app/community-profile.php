@@ -72,22 +72,7 @@ if ($community && $community['id']) {
       </div>
     </section>
 
-    <!-- Core Principles -->
-  <section class="outlined-card-wrap">
-    <h2 style="text-align: center;">Core Principles</h2>
-    <div class="principles-grid">
-      <?php if (!empty($principles)): ?>
-        <?php foreach ($principles as $p): ?>
-          <div class="principle-p-wrap">
-            <h2><?php echo htmlspecialchars($p['principle']); ?></h2>
-            <p><?php echo htmlspecialchars($p['description']); ?></p>
-          </div>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <p style="text-align:center;">No principles found for this community.</p>
-      <?php endif; ?>
-    </div>
-  </section>
+  
   </main>
 </body>
 <?php

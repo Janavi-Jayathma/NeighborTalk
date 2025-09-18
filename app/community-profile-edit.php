@@ -145,20 +145,6 @@ include '../components/header.php';
                 <textarea id="vision" name="vision"><?php echo htmlspecialchars($community['vision'] ?? ''); ?></textarea>
                 <label for="mission">Community Mission</label>
                 <textarea type="text" id="mission" name="mission"><?php echo htmlspecialchars($community['mission'] ?? ''); ?></textarea>
-                <label>Core Principles:</label>
-                <?php for ($i = 0; $i < $_SESSION['principle_count']; $i++): 
-                    $p_name = $principles[$i]['principle'] ?? '';
-                    $p_desc = $principles[$i]['description'] ?? '';
-                    $p_id   = $principles[$i]['id'] ?? '';
-                ?>
-                    <input type="hidden" name="principle_id[]" value="<?php echo htmlspecialchars($p_id); ?>">
-                    <input type="text" name="principle[]" value="<?php echo htmlspecialchars($p_name); ?>" placeholder="Principle Topic">
-                    <textarea name="description[]" placeholder="Enter description"><?php echo htmlspecialchars($p_desc); ?></textarea>
-                <?php endfor; ?>
-                <div>
-                    <button class="btn-blue" type="submit" name="add">Add Principle</button>
-                    <button class="btn-red" type="submit" name="remove">Remove Last</button>
-                </div>
                 <div style="margin-top: 1rem;">
                     <a href="./community-profile.php" class="btn-blue"> Visit Community</a>
                     <button type="submit" name="submit" class="btn-red">Save Changes</button>

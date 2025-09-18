@@ -99,6 +99,7 @@ if (!$events) die("Query failed: " . $conn->error);
       <a href="manage_posts.php" class="btn-blue">Manage Posts</a>
       <a href="manage_events.php" class="btn-blue">Manage Events</a>
       <a href="manage_communities.php" class="btn-blue">Manage Communities</a>
+      <a href="manage_contacts.php" class="btn-blue">User Inquiries</a>
     </div>
 
 <main class="admin-container">

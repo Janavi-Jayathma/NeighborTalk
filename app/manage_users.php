@@ -105,6 +105,7 @@ if (!$users) {
       <a href="manage_posts.php" class="btn-blue">Manage Posts</a>
       <a href="manage_events.php" class="btn-blue">Manage Events</a>
       <a href="manage_communities.php" class="btn-blue">Manage Communities</a>
+      <a href="manage_contacts.php" class="btn-blue">User Inquiries</a>
     </div>
 
 <main class="admin-container">
@@ -123,7 +124,7 @@ if (!$users) {
                     <form method="POST" action="" class="role-form" id="update-form-<?= $user['user_id'] ?>">
                         <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
                         <div class="role-actions">
-                            <select name="role" class="role-select" id="admin-select-<?= $user['user_id'] ?>">
+                            <select name="role" class="role-select" id="role-select-<?= $user['user_id'] ?>">
                                 <option value="user" <?= $user['role'] === 'user' ? 'selected' : '' ?>>User</option>
                                 <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Community Admin</option>
                                 <option value="super_admin" <?= $user['role'] === 'super_admin' ? 'selected' : '' ?>>Admin</option>
